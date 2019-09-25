@@ -1,0 +1,139 @@
+.bg{
+    width: 100%;
+    margin: 0 auto;
+}
+
+.bg-image{
+    background-image: url("../image/bg.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.bg-image-login{
+    background-image: url("../image/bg_login.jpg");
+
+    width: 100%;  
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+  
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    z-index: 1;  
+}
+
+.bg-login{
+    width: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 55px 55px 37px 55px;
+  
+    background:white;
+}
+
+.login-form{
+    width: 100%;
+}
+
+.login-logo{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+}
+
+.login-logo-image{
+    width: 100px;
+    height: 100px;
+}
+
+.table-header{
+    background-color: darkseagreen;
+    width: 100%;
+    height: 20%;
+}
+
+.td-header{
+    padding: 10px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: cadetblue;
+}
+  
+li {
+    float: left;
+}
+  
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+  
+li a:hover:not(.active) {
+    background-color: darkcyan;
+    color: crimson;
+}
+  
+.active {
+    background-color: crimson;
+}
+
+.column-left {
+    text-align: center;
+    background-color: darkcyan;
+    padding: 15px;
+    float: left;
+    width: 20%;
+}
+.column-center {
+    text-align: center;
+    background-color: darkcyan;
+    padding: 15px;
+    float: left;
+    width: 60%;
+}
+.column-right {
+    text-align: center;
+    background-color: darkcyan;
+    padding: 15px;
+    float: left;
+    width: 20%;
+}
+  
+  /* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.document{
+    background-image: url("../image/bg_table.png");
+    margin: 0 auto;
+    height: 100%;
+    width: 80%;
+}
+
+h3{
+    display: inline;
+}
