@@ -8,6 +8,11 @@ if(!$con)
 	exit;
 }
 
-mysqli_select_db($con,"classicmodels");
+$con_db = mysqli_select_db($con,"classicmodels");
+if(!$con)
+{
+	echo "ไม่พบ database ชื่อ classicmodels";
+	exit;
+}
 
 ?>

@@ -2,6 +2,12 @@
 include "display_table_rule.php";
 include "mysql_control.php";
 
+if(empty($_GET['category']))
+{
+	echo "Not GET Category !!!";
+	exit();
+}
+
 $category = $_GET['category'];
 
 $tablename = $category;
@@ -56,7 +62,19 @@ $result = mysqli_query($con,"SELECT $display_colum FROM $tablename");
 					
 					while($data = mysqli_fetch_row($result))
 					{
-						echo "<tr>";
+						if($tablename=="products")
+						{
+							echo "<tr onclick=\"window.location='2.php?productCode=$data[0]'\">";
+						}
+						else if($tablename=="employees")
+						{
+							echo "<tr onclick=\"window.location='3.php?employeenumber=$data[0]'\">";
+						}
+						else
+						{
+							echo "<tr>";
+						}
+						
 						for($i = 0;$i < $fieldcount;$i++)
 						{
 							echo "<td> $data[$i] </td>";
