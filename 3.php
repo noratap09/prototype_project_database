@@ -147,7 +147,7 @@ $employee_territory = $data[14];
 			</tr>
 			<tr>
 				<td width="50%" align="right"><b>Territory:</b></td>
-				<td width="50%" align="left"><?php echo $employee_number ?></td>
+				<td width="50%" align="left"><?php echo $employee_territory ?></td>
 			</tr>
         </table>
 			</div>
