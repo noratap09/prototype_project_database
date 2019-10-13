@@ -47,15 +47,37 @@ $product_vendor = $data[4];
                 Department of "Admin"
             </div>
         </div>
-        <ul>
-            <li><a href="1.php?category=products">products</a></li>
-            <li><a href="1.php?category=orders">orders</a></li>
-            <li><a href="1.php?category=customers">customers</a></li>
-            <li><a href="1.php?category=employees">employees</a></li>
-            <li style="float:right"><a class="active" href="#about">logout</a></li>
+        <ul class="ul-menu-bar">
+            <li class="li-menu-bar"><a href="1.php?category=products">products</a></li>
+            <li class="li-menu-bar"><a href="1.php?category=orders">orders</a></li>
+            <li class="li-menu-bar"><a href="1.php?category=customers">customers</a></li>
+            <li class="li-menu-bar"><a href="1.php?category=employees">employees</a></li>
+            <li class="li-menu-bar" style="float:right"><a class="active" href="#about">logout</a></li>
         </ul>
-
-        <table class="document">
+		<div class="row" style="margin:0px">
+			<div class="column-left-body">
+				<ul class="ul-menu-list">
+					<li class="li-menu-list"><a class="main-catelog" href="#home">Catelog</a></li>
+					<li class="li-menu-list"><a class="sub-catelog" href="#news">Product Vendor</a></li>
+					<?php
+						$result = mysqli_query($con,"SELECT DISTINCT productVendor FROM `products`");
+						while($data = mysqli_fetch_row($result))
+						{
+							echo "<li class='li-menu-list'><a href='1.php?category=products&productvendor=$data[0]'>$data[0]</a></li>";
+						}
+					?>
+					<li class="li-menu-list"><a class="sub-catelog" href="#news">Product Scale</a></li>
+					<?php
+						$result = mysqli_query($con,"SELECT DISTINCT productScale FROM `products`");
+						while($data = mysqli_fetch_row($result))
+						{
+							echo "<li class='li-menu-list'><a href='1.php?category=products&productscale=$data[0]'>$data[0]</a></li>";
+						}
+					?>
+				</ul>
+			</div>
+			<div class="column-center-body">
+				<table class="document">
                 <tr>
                     <td align="center" style="padding: 10px"><h3>Name:<?php echo $product_name ?></h3></td>
                 </tr>
@@ -87,6 +109,7 @@ $product_vendor = $data[4];
                     <td colspan="2" style="padding: 30px"><h3>Vender:</h3><?php echo $product_vendor ?></td>
                 </tr>
         </table>
-
+			</div>
+		</div>
     </body>
 </html>
