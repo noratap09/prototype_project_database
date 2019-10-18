@@ -1,6 +1,7 @@
 <?php
 include "display_table_rule.php";
 include "mysql_control.php";
+include "login_control.php";
 
 if(empty($_GET['productCode']))
 {
@@ -12,23 +13,22 @@ $productCode = $_GET['productCode'];
 
 $tablename = "products";
 
-$result = mysqli_query($con,"SELECT * FROM $tablename WHERE productCode='$productCode'");
-$num_rows = mysqli_num_rows($result);
-if($num_rows==0)
+$result = $database->select($tablename,"*",["productCode"=>"$productCode"]);	
+if(empty($result))
 {
 	echo "Not Found Product Code $productCode";
 	exit();
 }
+$product_name = $result[0]['productName'];
+$product_code = $result[0]['productCode'];
+$product_buyPrice = $result[0]['buyPrice'];
+$product_MSRP = $result[0]['MSRP'];
+$product_scale = $result[0]['productScale'];
+$product_quantity = $result[0]['quantityInStock'];
+$product_description = $result[0]['productDescription'];
+$product_vendor = $result[0]['productVendor'];
 
-$data = mysqli_fetch_row($result);
-$product_name = $data[1];
-$product_code = $data[0];
-$product_buyPrice = $data[7];
-$product_MSRP = $data[8];
-$product_scale = $data[3];
-$product_quantity = $data[6];
-$product_description = $data[5];
-$product_vendor = $data[4];
+ck_login();
 
 ?>
 <html>
@@ -52,29 +52,11 @@ $product_vendor = $data[4];
             <li class="li-menu-bar"><a href="1.php?category=orders">orders</a></li>
             <li class="li-menu-bar"><a href="1.php?category=customers">customers</a></li>
             <li class="li-menu-bar"><a href="1.php?category=employees">employees</a></li>
-            <li class="li-menu-bar" style="float:right"><a class="active" href="#about">logout</a></li>
+            <li class="li-menu-bar" style="float:right"><a class="active" href="logout.php">logout</a></li>
         </ul>
 		<div class="row" style="margin:0px">
 			<div class="column-left-body">
-				<ul class="ul-menu-list">
-					<li class="li-menu-list"><a class="main-catelog" href="#home">Catelog</a></li>
-					<li class="li-menu-list"><a class="sub-catelog" href="#news">Product Vendor</a></li>
-					<?php
-						$result = mysqli_query($con,"SELECT DISTINCT productVendor FROM `products`");
-						while($data = mysqli_fetch_row($result))
-						{
-							echo "<li class='li-menu-list'><a href='1.php?category=products&productvendor=$data[0]'>$data[0]</a></li>";
-						}
-					?>
-					<li class="li-menu-list"><a class="sub-catelog" href="#news">Product Scale</a></li>
-					<?php
-						$result = mysqli_query($con,"SELECT DISTINCT productScale FROM `products`");
-						while($data = mysqli_fetch_row($result))
-						{
-							echo "<li class='li-menu-list'><a href='1.php?category=products&productscale=$data[0]'>$data[0]</a></li>";
-						}
-					?>
-				</ul>
+				<?php display_catelog(); ?>
 			</div>
 			<div class="column-center-body">
 				<table class="document">

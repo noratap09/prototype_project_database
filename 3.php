@@ -1,6 +1,7 @@
 <?php
 include "display_table_rule.php";
 include "mysql_control.php";
+include "login_control.php";
 
 if(empty($_GET['employeenumber']))
 {
@@ -10,36 +11,48 @@ if(empty($_GET['employeenumber']))
 
 $employeenumber = $_GET['employeenumber'];
 
-$tablename = "employees AS E,offices AS O";
+$result = $database->select("employees",
+							["[><]offices"=>["officeCode"=>"officeCode"]],
+								["employees.employeeNumber",
+								 "employees.firstName",
+								 "employees.lastName",
+								 "employees.extension",
+								 "employees.email",
+								 "employees.jobTitle",
+								 "employees.officeCode",
+								 "offices.addressLine1",
+								 "offices.addressLine2",
+								 "offices.state",
+								 "offices.city",
+								 "offices.country",
+								 "offices.postalCode",
+								 "offices.phone",
+								 "offices.territory"]
+							,["employees.employeeNumber"=>$employeenumber]);	
 
-$sql_query = "SELECT E.employeeNumber,E.firstName,E.lastName,E.extension,E.email,E.jobTitle,E.officeCode,O.	addressLine1,O.	addressLine2,O.state,O.city,O.country,O.postalCode,O.phone,O.territory 
-			  FROM $tablename 
-			  WHERE E.employeeNumber='$employeenumber' AND E.officeCode = O.officeCode";
-
-$result = mysqli_query($con,$sql_query);
-$num_rows = mysqli_num_rows($result);
-if($num_rows==0)
+if(empty($result))
 {
 	echo "Not Found Employee Number $employeenumber";
 	exit();
 }
 
-$data = mysqli_fetch_row($result);
-$employee_number = $data[0];
-$employee_fname = $data[1];
-$employee_lname = $data[2];
-$employee_extension = $data[3];
-$employee_email = $data[4];
-$employee_jobtitle = $data[5];
-$employee_office_code = $data[6];
-$employee_add1 = $data[7];
-$employee_add2 = $data[8];
-$employee_state = $data[9];
-$employee_city = $data[10];
-$employee_country = $data[11];
-$employee_postal_code = $data[12];
-$employee_phone = $data[13];
-$employee_territory = $data[14];
+$employee_number = $result[0]["employeeNumber"];
+$employee_fname = $result[0]["firstName"];
+$employee_lname = $result[0]["lastName"];
+$employee_extension = $result[0]["extension"];
+$employee_email = $result[0]["email"];
+$employee_jobtitle = $result[0]["jobTitle"];
+$employee_office_code = $result[0]["officeCode"];
+$employee_add1 = $result[0]["addressLine1"];
+$employee_add2 = $result[0]["addressLine2"];
+$employee_state = $result[0]["state"];
+$employee_city = $result[0]["city"];
+$employee_country = $result[0]["country"];
+$employee_postal_code = $result[0]["postalCode"];
+$employee_phone = $result[0]["phone"];
+$employee_territory = $result[0]["territory"];
+
+ck_login();
 
 ?>
 <html>
@@ -63,29 +76,11 @@ $employee_territory = $data[14];
             <li class="li-menu-bar"><a href="1.php?category=orders">orders</a></li>
             <li class="li-menu-bar"><a href="1.php?category=customers">customers</a></li>
             <li class="li-menu-bar"><a href="1.php?category=employees">employees</a></li>
-            <li class="li-menu-bar" style="float:right"><a class="active" href="#about">logout</a></li>
+            <li class="li-menu-bar" style="float:right"><a class="active" href="logout.php">logout</a></li>
         </ul>
 		<div class="row" style="margin:0px">
 			<div class="column-left-body">
-				<ul class="ul-menu-list">
-					<li class="li-menu-list"><a class="main-catelog" href="#home">Catelog</a></li>
-					<li class="li-menu-list"><a class="sub-catelog" href="#news">Product Vendor</a></li>
-					<?php
-						$result = mysqli_query($con,"SELECT DISTINCT productVendor FROM `products`");
-						while($data = mysqli_fetch_row($result))
-						{
-							echo "<li class='li-menu-list'><a href='1.php?category=products&productvendor=$data[0]'>$data[0]</a></li>";
-						}
-					?>
-					<li class="li-menu-list"><a class="sub-catelog" href="#news">Product Scale</a></li>
-					<?php
-						$result = mysqli_query($con,"SELECT DISTINCT productScale FROM `products`");
-						while($data = mysqli_fetch_row($result))
-						{
-							echo "<li class='li-menu-list'><a href='1.php?category=products&productscale=$data[0]'>$data[0]</a></li>";
-						}
-					?>
-				</ul>
+				<?php display_catelog(); ?>
 			</div>
 			<div class="column-center-body">
 				<table class="document" cellpadding="10">

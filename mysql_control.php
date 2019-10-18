@@ -1,18 +1,19 @@
 <?php
 
-$con = mysqli_connect("localhost","root","");
+require 'vendor/autoload.php';
+use Medoo\Medoo;
 
-if(!$con)
+$database = new Medoo([
+    'database_type' => 'mysql',
+    'database_name' => 'classicmodels',
+    'server' => 'localhost',
+    'username' => 'root',
+    'password' => ''
+]);
+
+if(!$database)
 {
 	echo "ไม่สามารถเชื่อมต่อฐานข้อมูลได้";
 	exit;
 }
-
-$con_db = mysqli_select_db($con,"classicmodels");
-if(!$con)
-{
-	echo "ไม่พบ database ชื่อ classicmodels";
-	exit;
-}
-
 ?>
